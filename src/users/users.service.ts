@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -17,5 +18,20 @@ export class UsersService {
 
     findAll(){
         return this.usersRepository.find()
+    }
+
+    async update(id: number, user: UpdateUserDto) {
+
+        const userFound = await this.usersRepository.findOneBy({id: id});
+
+        if (!userFound) {
+            return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND)
+        }
+
+        const updateUser = Object.assign(userFound, user)
+        
+        delete updateUser.password
+        console.log(updateUser);
+        return this.usersRepository.save(updateUser);
     }
 }
