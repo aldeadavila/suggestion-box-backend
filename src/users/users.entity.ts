@@ -36,7 +36,11 @@ export class User {
     @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
     update_at: Date;
 
-    @JoinTable()
+    @JoinTable({name: 'user_has_roles',
+    joinColumn: { name: 'id_user'},
+    inverseJoinColumn: {name: 'id_rol'  
+    }
+    })
     @ManyToMany(() => Rol, (rol) => rol.users)
     roles: Rol[]
 
