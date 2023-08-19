@@ -1,17 +1,19 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/users.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { compare} from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
+import { Rol } from 'src/roles/rol.entity';
 
 @Injectable()
 export class AuthService {
 
     constructor(@InjectRepository(User) private usersRepository: Repository<User>,
-    private jwtService: JwtService
+        @InjectRepository(Rol) private rolesRepository: Repository<Rol>,
+        private jwtService: JwtService
     ){}
 
     async register(user:RegisterAuthDto) {
@@ -31,6 +33,9 @@ export class AuthService {
         }
 
         const newUser = this.usersRepository.create(user);
+        const rolesIds = user.rolesIds;
+        const roles = await this.rolesRepository.findBy({id: In(rolesIds)})
+        newUser.roles = roles;
         const userSaved = await this.usersRepository.save(newUser);
 
         const payload = {id: userSaved.id, name: userSaved.name};
