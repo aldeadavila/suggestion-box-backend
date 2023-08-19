@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import  storage = require('../utils/cloud_storage');
 
 @Injectable()
 export class UsersService {
@@ -27,6 +28,29 @@ export class UsersService {
         if (!userFound) {
             return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND)
         }
+
+        const updateUser = Object.assign(userFound, user)
+        
+        delete updateUser.password
+        console.log(updateUser);
+        return this.usersRepository.save(updateUser);
+    }
+
+    async updateWithImage(file: Express.Multer.File, id: number, user: UpdateUserDto) {
+        const url = await storage(file, file.originalname);
+        console.log('URL:' + url)
+
+        if (url === undefined && url === null) {
+            return new HttpException('La imagen no se pudo guardar', HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+
+        const userFound = await this.usersRepository.findOneBy({id: id});
+
+        if (!userFound) {
+            return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND)
+        }
+
+        user.image = url;
 
         const updateUser = Object.assign(userFound, user)
         
