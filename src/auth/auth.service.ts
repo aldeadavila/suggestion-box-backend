@@ -33,7 +33,15 @@ export class AuthService {
         }
 
         const newUser = this.usersRepository.create(user);
-        const rolesIds = user.rolesIds;
+        let rolesIds = [];
+
+        if(user.rolesIds !== undefined && user.rolesIds !== null) {
+            rolesIds = user.rolesIds
+        } else {
+            rolesIds.push('CLIENT')
+        }
+
+        
         const roles = await this.rolesRepository.findBy({id: In(rolesIds)})
         newUser.roles = roles;
         const userSaved = await this.usersRepository.save(newUser);
@@ -63,13 +71,13 @@ export class AuthService {
         });
 
         if (!userFound) {
-            return new HttpException('El email no está registrado', HttpStatus.NOT_FOUND)
+            throw new HttpException('El email no está registrado', HttpStatus.NOT_FOUND)
         }
 
         const isPasswordValid = await compare(password, userFound.password);
 
         if (!isPasswordValid) {
-            return new HttpException('El password es incorrecto', HttpStatus.FORBIDDEN)
+            throw new HttpException('El password es incorrecto', HttpStatus.FORBIDDEN)
         }
 
         const rolesIds = userFound.roles.map(rol => rol.id) // ['CLIENT', 'ADMIN']
