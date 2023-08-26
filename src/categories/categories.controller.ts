@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { HasRoles } from 'src/auth/jwt/has-roles';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -66,6 +66,16 @@ export class CategoriesController {
         ) {
         return this.categoriesService.updateWithImage(file, id, category)
     }
+
+    @HasRoles(JwtRole.ADMIN)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Delete(':id')
+    delete(
+        @Param('id', ParseIntPipe) id: number
+    ) {
+        return this.categoriesService.delete(id)
+    }
+
 
 
 }
