@@ -59,7 +59,7 @@ export class AuthService {
         }
 
         delete data.user.password
-
+        
         return data;
     }
 
@@ -94,7 +94,7 @@ export class AuthService {
         }
 
         delete data.user.password
-
+        console.log('Service Data: ', data);
         return data;
     }
 }
