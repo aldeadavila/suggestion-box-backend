@@ -12,6 +12,10 @@ export class CategoriesService {
         @InjectRepository(Category) private categoriesRepository: Repository<Category>
     ) {}
 
+    findAll() {
+        return this.categoriesRepository.find()
+    }
+
     async create(file: Express.Multer.File, category: CreateCategoryDto) {
         
         

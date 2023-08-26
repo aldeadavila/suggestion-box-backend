@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { HasRoles } from 'src/auth/jwt/has-roles';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -11,6 +11,13 @@ import { CreateCategoryDto } from './dto/create.category.dto';
 export class CategoriesController {
 
     constructor(private categoriesService: CategoriesService) {}
+
+    @HasRoles(JwtRole.CLIENT, JwtRole.ADMIN)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Get()
+    findAll() {
+        return this.categoriesService.findAll()
+    }
 
     @HasRoles(JwtRole.ADMIN)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
