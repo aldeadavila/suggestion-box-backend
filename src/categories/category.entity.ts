@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/products/product.entity";
+import { Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'categories'})
 export class Category {
@@ -20,4 +21,7 @@ export class Category {
 
     @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
     update_at: Date;
+
+    @OneToMany(() => Product, (product) => product.id)
+    product: Product
 }
