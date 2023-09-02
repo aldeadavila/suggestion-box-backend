@@ -47,6 +47,42 @@ export class ProductsService {
         return savedProduct;
     }
 
+    async updateWithImages(files: Array<Express.Multer.File>, id: number, product: UpdateProductDto) {
+
+        if (files.length === 0) {
+            throw new HttpException("Las imágenes son obligatorias", HttpStatus.NOT_FOUND);
+        }
+
+        let counter = 0;
+        let uploadFiles = Number(product.images_to_update[counter]); // contar cuántos archivos se suben a firebase
+
+        
+        const updateProduct = await this.update(id, product);
+
+        const startForEach = async () => {
+            await asyncForEach(files,async (file:Express.Multer.File) => {
+                const url = await storage(file, file.originalname);
+
+                if (url !== undefined && url !== null) {
+                    if(uploadFiles === 0) {
+                        updateProduct.image1 = url;
+                    }
+
+                    else if(uploadFiles === 1) {
+                        updateProduct.image2 = url;
+                    }
+                }
+
+                await this.update(updateProduct.id, updateProduct);
+                counter ++;
+                uploadFiles = Number(product.images_to_update[counter]);
+                
+            })
+        }
+        await startForEach();
+        return updateProduct;
+    }
+
     async update(id: number, product: UpdateProductDto) {
         const productFound = await this.productRepository.findOneBy({id: id});
         if(!productFound) {
