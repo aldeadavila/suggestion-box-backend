@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
+// Use `PORT` provided in environment or default to 3000
 const port = process.env.PORT || 3000;
 
 async function bootstrap() {
