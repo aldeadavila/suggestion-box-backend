@@ -91,4 +91,13 @@ export class ProductsService {
         const updateProduct = Object.assign(productFound, product);
         return this.productRepository.save(updateProduct);
     }
+
+    async delete(id: number) {
+        const productFound = await this.productRepository.findOneBy({id: id});
+        if(!productFound) {
+            throw new HttpException("Producto no encontrado", HttpStatus.NOT_FOUND);
+        }
+        
+        return this.productRepository.delete(id);
+    }
 }

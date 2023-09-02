@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtRole } from 'src/auth/jwt/jwt-role';
@@ -60,5 +60,14 @@ export class ProductsController {
         @Body() product: UpdateProductDto
         ) {
         return this.prductsService.update(id, product)
+    }
+
+    @HasRoles(JwtRole.ADMIN)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Delete(':id') // http://localhost:3000/products
+    delete(    
+        @Param('id', ParseIntPipe) id: number,      
+        ) {
+        return this.prductsService.delete(id)
     }
 }
