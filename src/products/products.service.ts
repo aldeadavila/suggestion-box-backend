@@ -12,6 +12,14 @@ export class ProductsService {
 
     constructor(@InjectRepository(Product) private productRepository: Repository<Product>) {}
 
+    findAll() {
+        return this.productRepository.find();
+    }
+
+    findByCategory(id_category: number) {
+        return this.productRepository.findBy({id_category: id_category});
+    }
+
     async create(files: Array<Express.Multer.File>, product: CreateProductDto) {
 
         if (files.length === 0) {

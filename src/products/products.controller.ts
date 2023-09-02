@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtRole } from 'src/auth/jwt/jwt-role';
@@ -13,6 +13,22 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductsController {
 
     constructor(private prductsService: ProductsService) {}
+
+    @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Get() // http://localhost:3000/products
+    findAll(    
+        ) {
+        return this.prductsService.findAll()
+    }
+
+    @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Get('category/:id_category') // http://localhost:3000/products/:id_category
+    findByCategoryl(@Param('id_category', ParseIntPipe) id_category: number ) {
+        return this.prductsService.findByCategory(id_category)
+        
+    }
 
     @HasRoles(JwtRole.ADMIN)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
