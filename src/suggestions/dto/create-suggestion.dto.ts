@@ -1,7 +1,7 @@
-export class CreateProductDto {
+export class CreateSuggestionDto {
 
     name: string;
     description: string;
-    price: number;
+    id_user: string;
     id_category: number;
 }

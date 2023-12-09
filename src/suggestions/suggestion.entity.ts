@@ -1,11 +1,14 @@
 import { Category } from "src/categories/category.entity";
 import { Column, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'products'})
-export class Product {
+@Entity({ name: 'suggestions'})
+export class Suggestion {
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column()
+    id_user: string;
 
     @Column()
     name: string;
@@ -18,9 +21,6 @@ export class Product {
 
     @Column({nullable: true})
     image2: string;
-
-    @Column()
-    price: number;
 
     @Column()
     id_category: number;
