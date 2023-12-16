@@ -1,8 +1,8 @@
-export class UpdateProductDto {
+export class UpdateSuggestionDto {
 
     name?: string;
     description?: string;
-    price?: number;
+    id_user?: string;
     id_category?: number;
     image1?: string;
     image2?: string;

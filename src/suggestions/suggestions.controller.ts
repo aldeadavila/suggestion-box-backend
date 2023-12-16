@@ -1,22 +1,22 @@
 import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ProductsService } from './products.service';
+import { SuggestionsService } from './suggestions.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtRole } from 'src/auth/jwt/jwt-role';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { JwtRolesGuard } from 'src/auth/jwt/jwt-roles-guard';
 import { HasRoles } from 'src/auth/jwt/has-roles';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateSuggestionDto } from './dto/create-suggestion.dto';
+import { UpdateSuggestionDto } from './dto/update-suggestion.dto';
 
 
-@Controller('products')
-export class ProductsController {
+@Controller('suggestions')
+export class SuggestionsController {
 
-    constructor(private prductsService: ProductsService) {}
+    constructor(private prductsService: SuggestionsService) {}
 
     @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Get() // http://localhost:3000/products
+    @Get() // http://localhost:3000/suggestions
     findAll(    
         ) {
         return this.prductsService.findAll()
@@ -24,7 +24,7 @@ export class ProductsController {
 
     @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Get('category/:id_category') // http://localhost:3000/products/:id_category
+    @Get('category/:id_category') // http://localhost:3000/suggestions/:id_category
     findByCategoryl(@Param('id_category', ParseIntPipe) id_category: number ) {
         return this.prductsService.findByCategory(id_category)
         
@@ -32,7 +32,7 @@ export class ProductsController {
 
     @HasRoles(JwtRole.ADMIN)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Post() // http://localhost:3000/products
+    @Post() // http://localhost:3000/suggestions
     @UseInterceptors(FilesInterceptor('files[]', 2))
     create(
         @UploadedFiles(
@@ -44,14 +44,14 @@ export class ProductsController {
               }),
         ) files: Array<Express.Multer.File>,
 
-        @Body() product: CreateProductDto
+        @Body() suggestion: CreateSuggestionDto
         ) {
-        return this.prductsService.create(files, product)
+        return this.prductsService.create(files, suggestion)
     }
 
     @HasRoles(JwtRole.ADMIN)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Put('upload/:id') // http://localhost:3000/products
+    @Put('upload/:id') // http://localhost:3000/suggestions
     @UseInterceptors(FilesInterceptor('files[]', 2))
     updateWithImage(
         @UploadedFiles(
@@ -63,24 +63,25 @@ export class ProductsController {
               }),
         ) files: Array<Express.Multer.File>,
         @Param('id', ParseIntPipe) id: number,      
-        @Body() product: UpdateProductDto
+        @Body() suggestion: UpdateSuggestionDto
         ) {
-        return this.prductsService.updateWithImages(files, id, product)
+            console.log('Update with image Data: ', suggestion);
+        return this.prductsService.updateWithImages(files, id, suggestion)
     }
 
     @HasRoles(JwtRole.ADMIN)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Put(':id') // http://localhost:3000/products
+    @Put(':id') // http://localhost:3000/suggestions
     update(    
         @Param('id', ParseIntPipe) id: number,      
-        @Body() product: UpdateProductDto
+        @Body() suggestion: UpdateSuggestionDto
         ) {
-        return this.prductsService.update(id, product)
+        return this.prductsService.update(id, suggestion)
     }
 
     @HasRoles(JwtRole.ADMIN)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Delete(':id') // http://localhost:3000/products
+    @Delete(':id') // http://localhost:3000/suggestions
     delete(    
         @Param('id', ParseIntPipe) id: number,      
         ) {
