@@ -8,7 +8,7 @@ export class Suggestion {
     id: number;
 
     @Column()
-    id_user: string;
+    id_user: number;
 
     @Column()
     name: string;

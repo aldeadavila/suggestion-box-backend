@@ -25,12 +25,12 @@ export class SuggestionsController {
     @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
     @Get('category/:id_category') // http://localhost:3000/suggestions/:id_category
-    findByCategoryl(@Param('id_category', ParseIntPipe) id_category: number ) {
+    findByCategory(@Param('id_category', ParseIntPipe) id_category: number ) {
         return this.prductsService.findByCategory(id_category)
         
     }
 
-    @HasRoles(JwtRole.ADMIN)
+    @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
     @Post() // http://localhost:3000/suggestions
     @UseInterceptors(FilesInterceptor('files[]', 2))
@@ -49,7 +49,7 @@ export class SuggestionsController {
         return this.prductsService.create(files, suggestion)
     }
 
-    @HasRoles(JwtRole.ADMIN)
+    @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
     @Put('upload/:id') // http://localhost:3000/suggestions
     @UseInterceptors(FilesInterceptor('files[]', 2))
@@ -69,7 +69,7 @@ export class SuggestionsController {
         return this.prductsService.updateWithImages(files, id, suggestion)
     }
 
-    @HasRoles(JwtRole.ADMIN)
+    @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
     @Put(':id') // http://localhost:3000/suggestions
     update(    
