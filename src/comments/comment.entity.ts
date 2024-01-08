@@ -9,6 +9,12 @@ export class Comment {
     id: number;
 
     @Column()
+    id_user: number;
+
+    @Column()
+    id_suggestion: number;
+
+    @Column()
     content: string;
 
     @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
