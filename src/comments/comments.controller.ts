@@ -42,12 +42,13 @@ export class CommentsController {
         return this.commentService.update(id, comment);
     }
 
-    @HasRoles(JwtRole.ADMIN)
+    @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
     @Delete(':id')
     delete(
         @Param('id', ParseIntPipe) id: number
     ) {
+        console.log("Id a borrar:", id)
         return this.commentService.delete(id)
     }
 

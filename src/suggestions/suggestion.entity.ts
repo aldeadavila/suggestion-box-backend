@@ -1,5 +1,5 @@
 import { Category } from "src/categories/category.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: 'suggestions'})
 export class Suggestion {
@@ -25,17 +25,15 @@ export class Suggestion {
     @Column()
     id_category: number;
 
-    @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
+    @CreateDateColumn({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
     created_at: Date;
 
-    @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
+    @UpdateDateColumn({type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP'})
     update_at: Date;
 
 
     @ManyToOne(() => Category, (category) => category.id)
     @JoinColumn({name: 'id_category'})
     category: Category
-
-
 
 }
