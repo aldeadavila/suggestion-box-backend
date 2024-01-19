@@ -1,6 +1,6 @@
 import { User } from "src/users/users.entity";
 import { Suggestion } from "src/suggestions/suggestion.entity";
-import { Column, Entity, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, JoinColumn, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn } from "typeorm";
 
 @Entity({ name: 'comments'})
 export class Comment {
@@ -17,10 +17,10 @@ export class Comment {
     @Column()
     content: string;
 
-    @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
+    @CreateDateColumn({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
     created_at: Date;
 
-    @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
+    @UpdateDateColumn({type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP'})
     update_at: Date;
 
     @ManyToOne(() => User, (user) => user.id)
