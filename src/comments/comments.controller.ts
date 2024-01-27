@@ -37,8 +37,10 @@ export class CommentsController {
 
     @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Put(':id') //http://localhost:3000/users/:id
-    updateComment(@Param('id', ParseIntPipe) id: number, @Body() comment: UpdateCommentDto ) {
+    @Put(':id') //http://localhost:3000/comments/:id
+    updateComment(
+        @Param('id', ParseIntPipe) id: number, 
+        @Body() comment: UpdateCommentDto ) {
         return this.commentService.update(id, comment);
     }
 

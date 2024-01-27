@@ -12,6 +12,10 @@ export class RegisterAuthDto {
 
     @IsNotEmpty()
     @IsString()
+    nickname: string;
+
+    @IsNotEmpty()
+    @IsString()
     @IsEmail({}, {message: 'El email no es válido'})
     email: string;
 
