@@ -18,7 +18,7 @@ export class AuthService {
 
     async register(user:RegisterAuthDto) {
 
-        const { email, phone } = user;
+        const { email, phone, nickname } = user;
 
         const emailExists = await this.usersRepository.findOneBy({email: email});
 
@@ -30,6 +30,12 @@ export class AuthService {
 
         if (phoneExists) {
             return new HttpException('El teléfono ya está registrado', HttpStatus.CONFLICT)
+        }
+
+        const nicknameExists = await this.usersRepository.findOneBy({nickname: nickname});
+
+        if (nicknameExists) {
+            return new HttpException('El apodo ya está elegido', HttpStatus.CONFLICT)
         }
 
         const newUser = this.usersRepository.create(user);
