@@ -9,20 +9,11 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    name: string;
-
-    @Column()
-    lastname: string;
-
     @Column({unique: true})
     nickname: string;
 
     @Column({unique: true})
     email: string;
-
-    @Column({unique: true})
-    phone: string;
 
     @Column({nullable: true})
     image: string;
