@@ -1,7 +1,7 @@
 
 import { hash } from "bcrypt";
 import { Rol } from "src/roles/rol.entity";
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn } from "typeorm";
 
 @Entity({name: 'users'})
 export class User {
@@ -24,11 +24,11 @@ export class User {
     @Column({nullable: true})
     notification_token: string;
 
-    @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
-    created_at: Date;
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+    public created_at: Date;
 
-    @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
-    update_at: Date;
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+    public updated_at: Date;
 
     @JoinTable({name: 'user_has_roles',
     joinColumn: { name: 'id_user'},

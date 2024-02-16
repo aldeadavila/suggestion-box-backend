@@ -17,12 +17,11 @@ export class Comment {
     @Column()
     content: string;
 
-    @CreateDateColumn({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
-    created_at: Date;
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+    public created_at: Date;
 
-    @UpdateDateColumn({type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP'})
-    update_at: Date;
-
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+    public updated_at: Date;  
     @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({name: 'id_user'})
     user: User
