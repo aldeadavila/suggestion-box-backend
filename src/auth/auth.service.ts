@@ -18,7 +18,7 @@ export class AuthService {
 
     async register(user:RegisterAuthDto) {
 
-        const { email, phone } = user;
+        const { email, nickname } = user;
 
         const emailExists = await this.usersRepository.findOneBy({email: email});
 
@@ -26,10 +26,11 @@ export class AuthService {
             return new HttpException('El email ya está registrado', HttpStatus.CONFLICT)
         }
 
-        const phoneExists = await this.usersRepository.findOneBy({phone: phone});
 
-        if (phoneExists) {
-            return new HttpException('El teléfono ya está registrado', HttpStatus.CONFLICT)
+        const nicknameExists = await this.usersRepository.findOneBy({nickname: nickname});
+
+        if (nicknameExists) {
+            return new HttpException('El apodo ya está elegido', HttpStatus.CONFLICT)
         }
 
         const newUser = this.usersRepository.create(user);
@@ -49,7 +50,6 @@ export class AuthService {
 
         const payload = {
             id: userSaved.id, 
-            name: userSaved.name,
             roles: rolesString
         };
         const token = this.jwtService.sign(payload);
@@ -84,7 +84,6 @@ export class AuthService {
 
         const payload = {
             id: userFound.id, 
-            name: userFound.name, 
             roles: rolesIds
         };
         const token = this.jwtService.sign(payload);
