@@ -46,7 +46,7 @@ export class CommentsController {
 
     @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
     @UseGuards(JwtAuthGuard, JwtRolesGuard)
-    @Delete(':id')
+    @Delete(':id') //http://localhost:3000/comments/:id
     delete(
         @Param('id', ParseIntPipe) id: number
     ) {
