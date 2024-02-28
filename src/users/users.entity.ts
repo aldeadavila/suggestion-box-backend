@@ -6,6 +6,8 @@ import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedCo
 @Entity({name: 'users'})
 export class User {
 
+    public $timestamps = false;
+
     @PrimaryGeneratedColumn()
     id: number;
 
