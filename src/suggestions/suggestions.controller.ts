@@ -38,7 +38,7 @@ export class SuggestionsController {
         @UploadedFiles(
             new ParseFilePipe({
                 validators: [
-                  new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 2 }),
+                  new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 10 }),
                   new FileTypeValidator({ fileType: '(png|jpeg|jpg)' }),
                 ],
               }),

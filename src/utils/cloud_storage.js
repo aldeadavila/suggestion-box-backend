@@ -4,6 +4,9 @@ const env = require('../config/env')
 const url = require('url');
 const { v4: uuidv4 } = require('uuid');
 const uuid = uuidv4();
+// library for image resizing
+const sharp = require("sharp");
+
 
 
 const storage = new Storage({
@@ -18,7 +21,14 @@ const bucket = storage.bucket("gs://suggestion-box-19f10.appspot.com/");
  * file objeto que sera almacenado en Firebase Storage
  */
 module.exports = (file, pathImage) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+
+        file.buffer = await sharp(file.buffer).resize({
+            height: 600,
+            withoutEnlargement: true,
+          })
+          .jpeg({ quality: 60 })
+          .toBuffer();
         
         if (pathImage) {
             if (pathImage != null || pathImage != undefined) {
@@ -34,7 +44,7 @@ module.exports = (file, pathImage) => {
                     resumable: false
 
                 });
-
+              
                 blobStream.on('error', (error) => {
                     console.log('Error al subir archivo a firebase', error);
                     reject('Something is wrong! Unable to upload at the moment.');
