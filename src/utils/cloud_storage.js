@@ -8,7 +8,20 @@ const uuid = uuidv4();
 const sharp = require("sharp");
 const admin = require('firebase-admin')
 const firebaseService = require('./firebase.service')
-const storage = this.firebaseService.getStorageInstance();
+const serviceAccount = {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    // replace `\` and `n` character pairs w/ single `\n` character
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+}
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+})
+
+
+
+const storage =  admin.storage();
 const bucket = storage.bucket();
 
 /**
