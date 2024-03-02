@@ -8,9 +8,8 @@ const sharp = require("sharp");
 const admin = require('firebase-admin');
 const { ConfigService } = require('@nestjs/config');
 
-const project_id = ConfigService.get<String>('firebase.FIREBASE_PROJECT_ID');
 const storage = new Storage({
-    projectId: project_id,
+    projectId: process.env.FIREBASE_PROJECT_ID,
     keyFilename: process.env.FIREBASE_CONFIG
 });
 
