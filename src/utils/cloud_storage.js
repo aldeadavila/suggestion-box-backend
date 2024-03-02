@@ -7,10 +7,8 @@ const uuid = uuidv4();
 // library for image resizing
 const sharp = require("sharp");
 const admin = require('firebase-admin')
-
-import { FirebaseService } from './firebase.service';
-
-const storage = this.FirebaseService.getStorageInstance();
+const firebaseService = require('./firebase.service')
+const storage = this.firebaseService.getStorageInstance();
 const bucket = storage.bucket();
 
 /**
