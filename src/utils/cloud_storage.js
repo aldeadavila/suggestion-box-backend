@@ -6,21 +6,19 @@ const { v4: uuidv4 } = require('uuid');
 const uuid = uuidv4();
 // library for image resizing
 const sharp = require("sharp");
+const admin = require('firebase-admin')
 
+import { FirebaseService } from './firebase.service';
 
-
-const storage = new Storage({
-    projectId: "suggestion-box-19f10",
-    keyFilename: './serviceAccountKey.json'
-});
-
-const bucket = storage.bucket("gs://suggestion-box-19f10.appspot.com/");
+const storage = this.FirebaseService.getStorageInstance();
+const bucket = storage.bucket();
 
 /**
  * Subir el archivo a Firebase Storage
  * file objeto que sera almacenado en Firebase Storage
  */
 module.exports = (file, pathImage) => {
+
     return new Promise(async (resolve, reject) => {
 
         file.buffer = await sharp(file.buffer).resize({
