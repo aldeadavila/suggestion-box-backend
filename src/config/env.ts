@@ -1,4 +1,6 @@
-export default () => ({
+import { registerAs } from "@nestjs/config";
+
+export default registerAs('firebase', () => ({
  
     FIREBASE_AUTH_PROVIDER_X509_CERT_URL : process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
     FIREBASE_AUTH_URI : process.env.FIREBASE_AUTH_URI,
@@ -13,5 +15,5 @@ export default () => ({
     FIREBASE_TYPE : process.env.FIREBASE_TYPE,
     FIREBASE_UNIVERSE_DOMAIN : process.env.FIREBASE_UNIVERSE_DOMAIN,
     
-  });
+  }));
   
