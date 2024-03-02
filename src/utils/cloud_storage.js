@@ -9,10 +9,10 @@ const sharp = require("sharp");
 const admin = require('firebase-admin')
 
 const serviceAccount = {
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    project_id: process.env.FIREBASE_PROJECT_ID,
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
     // replace `\` and `n` character pairs w/ single `\n` character
-    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
 }
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
