@@ -8,6 +8,8 @@ import { RolesModule } from './roles/roles.module';
 import { CategoriesModule } from './categories/categories.module';
 import { SuggestionsModule } from './suggestions/suggestions.module';
 import { CommentsModule } from './comments/comments.module';
+import { ConfigModule } from '@nestjs/config';
+import env from './config/env';
 
 
 @Module({
@@ -21,6 +23,9 @@ import { CommentsModule } from './comments/comments.module';
       database: process.env.MYSQLDATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+    }),
+    ConfigModule.forRoot({
+      load: [env],
     }),
     UsersModule,
     AuthModule,
