@@ -24,7 +24,7 @@ const storage = new Storage({
       }
 });
 
-const bucket = storage.bucket("gs://suggestion-box-19f10.appspot.com/");
+const bucket = storage.bucket("gs://" + FIREBASE_PROJECT_ID + ".appspot.com/");
 
 /**
  * Subir el archivo a Firebase Storage
