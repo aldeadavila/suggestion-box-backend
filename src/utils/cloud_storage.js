@@ -7,7 +7,7 @@ const uuid = uuidv4();
 // library for image resizing
 const sharp = require("sharp");
 const admin = require('firebase-admin')
-const firebaseService = require('./firebase.service')
+
 const serviceAccount = {
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
