@@ -9,9 +9,8 @@ const admin = require('firebase-admin');
 const { ConfigService } = require('@nestjs/config');
 
 const storage = new Storage({
-    projectId: '${{shared.FIREBASE_PROJECT_ID}}',
-    keyFilename: '${{shared.FIREBASE_CONFIG}}'
-
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    keyFilename: process.env.FIREBASE_CONFIG
 });
 
 const bucket = storage.bucket("gs://suggestion-box-19f10.appspot.com/");
