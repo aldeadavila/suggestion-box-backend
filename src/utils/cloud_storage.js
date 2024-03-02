@@ -10,7 +10,7 @@ const { ConfigService } = require('@nestjs/config');
 
 const storage = new Storage({
     projectId: process.env.FIREBASE_PROJECT_ID,
-    keyFilename: process.env.FIREBASE_CONFIG
+    keyFilename: JSON.stringify(process.env.FIREBASE_CONFIG)
 });
 
 const bucket = storage.bucket("gs://suggestion-box-19f10.appspot.com/");
