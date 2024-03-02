@@ -8,21 +8,24 @@ const uuid = uuidv4();
 const sharp = require("sharp");
 const admin = require('firebase-admin')
 
-const serviceAccount = {
-    project_id: process.env.FIREBASE_PROJECT_ID,
-    client_email: process.env.FIREBASE_CLIENT_EMAIL,
-    // replace `\` and `n` character pairs w/ single `\n` character
-    private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-}
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
-})
+const storage = new Storage({
+    projectId: FIREBASE_PROJECT_ID,
+    keyFilename: {
+        "type": FIREBASE_TYPE,
+        "project_id": FIREBASE_PROJECT_ID,
+        "private_key_id": FIREBASE_PRIVATE_KEY_ID,
+        "private_key": FIREBASE_PRIVATE_KEY,
+        "client_email": FIREBASE_CLIENT_EMAIL,
+        "client_id": FIREBASE_CLIENT_ID,
+        "auth_uri": FIREBASE_AUTH_URI,
+        "token_uri": FIREBASE_TOKEN_URI,
+        "auth_provider_x509_cert_url": FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+        "client_x509_cert_url": FIREBASE_CLIENT_X509_CERT_URL,
+        "universe_domain": FIREBASE_UNIVERSE_DOMAIN
+      }
+});
 
-
-
-const storage =  admin.storage();
-const bucket = storage.bucket();
+const bucket = storage.bucket("gs://" + FIREBASE_PROJECT_ID + ".appspot.com/");
 
 /**
  * Subir el archivo a Firebase Storage
