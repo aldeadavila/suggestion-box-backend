@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const uuid = uuidv4();
 // library for image resizing
 const sharp = require("sharp");
+const admin = require('firebase-admin')
 
 const storage = new Storage({
     projectId: FIREBASE_PROJECT_ID,
@@ -31,6 +32,7 @@ const bucket = storage.bucket("gs://" + FIREBASE_PROJECT_ID + ".appspot.com/");
  * file objeto que sera almacenado en Firebase Storage
  */
 module.exports = (file, pathImage) => {
+
     return new Promise(async (resolve, reject) => {
 
         file.buffer = await sharp(file.buffer).resize({
