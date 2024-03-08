@@ -16,11 +16,11 @@ import env from './config/env';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQLHOST,
-      port: Number(process.env.MYSQLPORT),
-      username: process.env.MYSQLUSER,
-      password: process.env.MYSQLPASSWORD,
-      database: process.env.MYSQLDATABASE,
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'suggestion_box',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
