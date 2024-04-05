@@ -8,11 +8,12 @@ import { jwtConstants } from './jwt/jwt.constants';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { RolesService } from 'src/roles/roles.service';
 import { Rol } from 'src/roles/rol.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Rol]),
   JwtModule.register({
-    secret: jwtConstants.secret,
+    secret: process.env.SECRET,
     signOptions: { expiresIn: '5000d' },
   }),
 ],
