@@ -93,7 +93,7 @@ export class AuthService {
         }
 
         delete data.user.password
-        console.log('Service Data: ', data);
+
         return data;
     }
 }
