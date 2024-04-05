@@ -4,6 +4,7 @@ import { Any, Repository } from 'typeorm';
 import { User } from './users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUserDto } from './dto/get-user.dto';
 import  storage = require('../utils/cloud_storage');
 
 @Injectable()
@@ -15,6 +16,19 @@ export class UsersService {
     create(user: CreateUserDto) {
         const newUser = this.usersRepository.create(user)
         return this.usersRepository.save(newUser);
+    }
+
+    async findById(id: number){
+        const userFound = await this.usersRepository.findOneBy({id: id});
+        if (!userFound) {
+            throw new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
+        }
+
+        const getUserDto = new GetUserDto();
+        getUserDto.nickname = userFound.nickname;
+        getUserDto.image = userFound.image;
+
+        return getUserDto
     }
 
     findAll(){
