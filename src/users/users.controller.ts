@@ -7,11 +7,19 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtRolesGuard } from 'src/auth/jwt/jwt-roles-guard';
 import { HasRoles } from 'src/auth/jwt/has-roles';
 import { JwtRole } from 'src/auth/jwt/jwt-role';
+import { GetUserDto } from './dto/get-user.dto';
 
 @Controller('users')
 export class UsersController {
 
     constructor(private userService: UsersService) {}
+
+    @HasRoles(JwtRole.ADMIN, JwtRole.CLIENT)
+    @UseGuards(JwtAuthGuard, JwtRolesGuard)
+    @Get(':id') //http://localhost/users/:id
+    findUserById(@Param('id', ParseIntPipe) id: number){
+        return  this.userService.findById(id);
+    }
 
 
     @HasRoles(JwtRole.ADMIN)
